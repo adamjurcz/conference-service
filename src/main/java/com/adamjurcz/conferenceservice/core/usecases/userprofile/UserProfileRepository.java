@@ -8,4 +8,6 @@ import java.util.Optional;
 public interface UserProfileRepository {
     Optional<UserProfile> getByLogin(String string);
 
+    UserProfile persist(UserProfile userProfile);
+
 }
