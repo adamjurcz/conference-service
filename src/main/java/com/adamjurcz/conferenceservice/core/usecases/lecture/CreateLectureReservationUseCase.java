@@ -42,18 +42,21 @@ public class CreateLectureReservationUseCase extends UseCase<CreateLectureReserv
         }
         //mozna tez sprawdzic czy uzytkownik wysyla ta sama rezerwacje (o tym samym id co ma w liscie)
 
+        userProfile.getLectures().add(lecture);
+        userProfileRepository.persist(userProfile);
+        //TODO wysylka maila
         return new Output(lecture);
     }
 
     @Value
-    public class Input implements UseCase.Input{
+    public static class Input implements UseCase.Input{
         String login;
         String email;
         Identity lecture_id;
     }
 
     @Value
-    public class Output implements UseCase.Output{
+    public static class Output implements UseCase.Output{
         Lecture lecture;
     }
 }
