@@ -40,7 +40,7 @@ public class CreateLectureReservationUseCase extends UseCase<CreateLectureReserv
         if(userProfile.isHourAlreadyReserved(lecture)){
             throw new UserAlreadyReservedHourException("Uzytkownik: %s juz zarezerwowal te godzine!", input.getLogin());
         }
-        //mozna tez sprawdzic czy uzytkownik wysyla ta sama rezerwacje (o tym samym id co ma w liscie)
+        //TODO mozna tez sprawdzic czy uzytkownik wysyla ta sama rezerwacje (o tym samym id co ma w liscie)
 
         userProfile.getLectures().add(lecture);
         userProfileRepository.persist(userProfile);

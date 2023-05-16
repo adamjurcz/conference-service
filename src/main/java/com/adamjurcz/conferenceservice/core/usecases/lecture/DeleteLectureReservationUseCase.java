@@ -9,18 +9,16 @@ import com.adamjurcz.conferenceservice.core.usecases.userprofile.UserProfileRepo
 import lombok.Value;
 
 public class DeleteLectureReservationUseCase extends UseCase<DeleteLectureReservationUseCase.Input, DeleteLectureReservationUseCase.Output> {
-    private LectureRepository lectureRepository;
     private UserProfileRepository userProfileRepository;
 
-    public DeleteLectureReservationUseCase(LectureRepository lectureRepository, UserProfileRepository userProfileRepository) {
-        this.lectureRepository = lectureRepository;
+    public DeleteLectureReservationUseCase(UserProfileRepository userProfileRepository) {
         this.userProfileRepository = userProfileRepository;
     }
 
     @Override
     public Output execute(Input input) {
         UserProfile userProfile = userProfileRepository.getByLogin(input.getLogin())
-                .orElseThrow(()->new NotFoundException("Login: %s nie istnieje"));
+                .orElseThrow(()->new NotFoundException("Login: %s nie istnieje", input.getLogin()));
 
         Lecture userLecture = userProfile.getLectures()
                 .stream()
