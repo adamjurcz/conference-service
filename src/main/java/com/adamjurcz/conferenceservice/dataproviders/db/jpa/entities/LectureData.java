@@ -8,17 +8,13 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode
 @Table(name = "lecture")
 @Entity
 public class LectureData {
@@ -31,7 +27,8 @@ public class LectureData {
     private Integer path_number;
     private Integer max_listeners;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE},
+                fetch = FetchType.LAZY)
     @JoinTable(name = "user_profile_lecture_junction",
             joinColumns = @JoinColumn(name = "lecture_id"),
             inverseJoinColumns = @JoinColumn(name = "user_profile_id")
@@ -60,4 +57,19 @@ public class LectureData {
                 lecture.getPath_number(), lecture.getMax_listeners(), listeners);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof LectureData)) return false;
+        LectureData that = (LectureData) o;
+        return main_subject.equals(that.main_subject) &&
+                start_time.equals(that.start_time) &&
+                path_number.equals(that.path_number) &&
+                max_listeners.equals(that.max_listeners);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(main_subject, start_time, path_number, max_listeners);
+    }
 }

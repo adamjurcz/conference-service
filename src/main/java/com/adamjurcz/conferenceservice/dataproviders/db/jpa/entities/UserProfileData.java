@@ -6,17 +6,13 @@ import com.adamjurcz.conferenceservice.core.domain.UserProfile;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode
 @Table(name = "user_profile")
 @Entity
 public class UserProfileData {
@@ -48,5 +44,18 @@ public class UserProfileData {
         Set<LectureData> lectures = userProfile.getLectures().stream()
                 .map(LectureData::fromWithEmptyListeners).collect(Collectors.toSet());
         return new UserProfileData(userProfile.getId().getValue(), userProfile.getLogin(), userProfile.getEmail(), lectures);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof UserProfileData)) return false;
+        UserProfileData that = (UserProfileData) o;
+        return login.equals(that.login) && email.equals(that.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(login, email);
     }
 }
