@@ -39,14 +39,14 @@ public class GetLecturePathInterestUseCase extends UseCase<GetLecturePathInteres
 
     private List<Integer> getAllPathNumbers(List<Lecture> lectures){
         return lectures.stream()
-                .map(Lecture::getPathNumber)
+                .map(Lecture::getPath_number)
                 .distinct()
                 .collect(Collectors.toList());
     }
 
     private int getUserNumberInPath(List<Lecture> lectures, Integer pathNumber){
         return lectures.stream()
-                .filter(lecture -> lecture.getPathNumber().equals(pathNumber))
+                .filter(lecture -> lecture.getPath_number().equals(pathNumber))
                 .mapToInt(lecture -> lecture.getListeners().size())
                 .sum();
     }

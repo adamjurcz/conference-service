@@ -4,7 +4,6 @@ import com.adamjurcz.conferenceservice.core.domain.Lecture;
 import com.adamjurcz.conferenceservice.core.domain.UserProfile;
 import com.adamjurcz.conferenceservice.core.exceptions.NotFoundException;
 import com.adamjurcz.conferenceservice.core.usecases.UseCase;
-import com.adamjurcz.conferenceservice.core.usecases.lecture.GetLecturesUseCase;
 import lombok.Value;
 
 import java.util.List;
@@ -20,6 +19,7 @@ public class GetUserReservationsUseCase extends UseCase<GetUserReservationsUseCa
     public Output execute(Input input){
         UserProfile userProfile = userProfileRepository.getByLogin(input.getLogin())
                 .orElseThrow(()-> new NotFoundException("Uzytkownik o loginie: %s nie istnieje", input.getLogin()));
+        System.out.println(userProfile.getLectures());
 
         return new Output(userProfile.getLectures());
     }

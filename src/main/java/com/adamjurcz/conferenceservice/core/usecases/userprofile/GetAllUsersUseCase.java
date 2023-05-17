@@ -15,7 +15,7 @@ public class GetAllUsersUseCase extends UseCase<GetAllUsersUseCase.Input, GetAll
 
     @Override
     public Output execute(Input input) {
-        return new Output(userProfileRepository.getAll());
+        return new Output(userProfileRepository.getAllUsersOnly());
     }
 
     @Value
