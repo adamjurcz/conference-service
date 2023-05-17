@@ -13,8 +13,8 @@ public interface LectureResource {
     @PostMapping("/{lectureId}/reservations")
     ResponseEntity<Lecture> createLectureReservation(@PathVariable Integer lectureId, @RequestBody UserProfileRequest userProfileRequest);
 
-    @DeleteMapping("/{lectureId}/reservations/{userId}")
-    ResponseEntity<Void> deleteLectureReservation(@PathVariable Integer lectureId, @PathVariable Integer userId);
+    @DeleteMapping("/{lectureId}/reservations/{login}")
+    ResponseEntity<Void> deleteLectureReservation(@PathVariable Integer lectureId, @PathVariable String login);
 
 
 }

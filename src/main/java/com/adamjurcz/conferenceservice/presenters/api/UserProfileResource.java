@@ -3,6 +3,7 @@ package com.adamjurcz.conferenceservice.presenters.api;
 import com.adamjurcz.conferenceservice.core.domain.Lecture;
 import com.adamjurcz.conferenceservice.core.domain.UserProfile;
 import com.adamjurcz.conferenceservice.presenters.entities.requests.UserProfileRequest;
+import com.adamjurcz.conferenceservice.presenters.entities.requests.UserProfileResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,12 +15,12 @@ public interface UserProfileResource {
     String BASE_URL = "/api/v1/users";
 
     @GetMapping
-    ResponseEntity<List<UserProfile>> getAllUsers();
+    ResponseEntity<List<UserProfileResponse>> getAllUsers();
 
     @GetMapping("/{login}/reservations")
     ResponseEntity<List<Lecture>> getUserReservations(@PathVariable String login);
 
-    @PutMapping("/{email}")
-    ResponseEntity<UserProfile> editUserEmail(@PathVariable String email, @RequestBody UserProfileRequest oldAccount);
+    @PutMapping("/{newEmail}")
+    ResponseEntity<UserProfile> editUserEmail(@PathVariable String newEmail, @RequestBody UserProfileRequest oldAccount);
 
 }
