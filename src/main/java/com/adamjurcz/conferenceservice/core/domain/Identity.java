@@ -4,9 +4,9 @@ import lombok.Value;
 
 @Value
 public class Identity {
-    Long value;
+    Integer value;
 
     public static Identity nothing(){
-        return new Identity(Long.MIN_VALUE);
+        return new Identity(Integer.MIN_VALUE);
     }
 }
