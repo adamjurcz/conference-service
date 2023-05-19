@@ -20,7 +20,7 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
         String formattedDate = dateTime.format(DATE_FORMATTER);
         String formattedStartDate = lecture.getStart_time().format(DATE_FORMATTER);
         String notificationHeader = String.format("Data wyslania: %s\nDo: %s\n\n", formattedDate, email);
-        String notificationBody = String.format("Dzien dobry!\n Zarezerwowales miejsce na wykladzie '%s',\n ktory sie odbedzie %s",
+        String notificationBody = String.format("Dzien dobry!\n Zarezerwowales miejsce na wykladzie '%s',\n ktory sie odbedzie %s\n\n",
                 lecture.getMain_subject(), formattedStartDate);
 
         try (FileWriter fileWriter = new FileWriter(FILE_NAME, true)) {

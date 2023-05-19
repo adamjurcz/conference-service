@@ -4,11 +4,13 @@ import com.adamjurcz.conferenceservice.core.domain.Lecture;
 import com.adamjurcz.conferenceservice.core.usecases.UseCase;
 import lombok.Value;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class GetLectureInterestUseCase extends UseCase<GetLectureInterestUseCase.Input, GetLectureInterestUseCase.Output>{
+    private static final DecimalFormat decimalFormat = new DecimalFormat("#.##");
     private GetAllLecturesUseCase getAllLecturesUseCase;
 
     public GetLectureInterestUseCase(GetAllLecturesUseCase getAllLecturesUseCase) {
@@ -29,6 +31,8 @@ public class GetLectureInterestUseCase extends UseCase<GetLectureInterestUseCase
         Map<Lecture,Double> lectureInterestMap = new HashMap<>();
         lectures.forEach(lecture -> {
             Double interestFactor = (double)lecture.getListeners().size()/usersNumber*100;
+            interestFactor = Double.parseDouble(decimalFormat.format(interestFactor));
+
             lectureInterestMap.put(lecture, interestFactor);
         });
 

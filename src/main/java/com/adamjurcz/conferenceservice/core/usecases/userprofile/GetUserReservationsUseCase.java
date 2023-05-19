@@ -19,7 +19,6 @@ public class GetUserReservationsUseCase extends UseCase<GetUserReservationsUseCa
     public Output execute(Input input){
         UserProfile userProfile = userProfileRepository.getByLogin(input.getLogin())
                 .orElseThrow(()-> new NotFoundException("Uzytkownik o loginie: %s nie istnieje", input.getLogin()));
-        System.out.println(userProfile.getLectures());
 
         return new Output(userProfile.getLectures());
     }

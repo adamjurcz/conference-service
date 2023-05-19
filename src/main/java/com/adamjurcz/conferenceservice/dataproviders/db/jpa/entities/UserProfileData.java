@@ -6,7 +6,6 @@ import com.adamjurcz.conferenceservice.core.domain.UserProfile;
 import jakarta.persistence.*;
 import lombok.*;
 
-import javax.validation.constraints.Size;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -21,9 +20,7 @@ public class UserProfileData {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Size(min = 5, max = 30)
     private String login;
-    @Size(max = 60)
     private String email;
 
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST},
