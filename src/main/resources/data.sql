@@ -1,4 +1,8 @@
 INSERT INTO user_profile (login, email) VALUES ('mieszekleszek', 'mieszekleszek@wp.pl');
+INSERT INTO user_profile (login, email) VALUES ('zdzisiek', 'zdzisiek@wp.pl');
+INSERT INTO user_profile (login, email) VALUES ('misiek', 'misiek@wp.pl');
+INSERT INTO user_profile (login, email) VALUES ('wisniek', 'wisniek@wp.pl');
+INSERT INTO user_profile (login, email) VALUES ('lisciek', 'lisciek@wp.pl');
 INSERT INTO user_profile (login, email) VALUES ('adassmieszek', 'adassmieszek@onet.pl');
 
 INSERT INTO lecture (main_subject, start_time, path_number, max_listeners)
@@ -23,11 +27,22 @@ INSERT INTO lecture (main_subject, start_time, path_number, max_listeners)
 VALUES ('Filologia polska', '2023-06-01 14:00:00', 3, 5);
 
 INSERT INTO user_profile_lecture_junction (user_profile_id, lecture_id)
-VALUES (2, 2);
+VALUES (1, 2);
 INSERT INTO user_profile_lecture_junction (user_profile_id, lecture_id)
 VALUES (1, 5);
 INSERT INTO user_profile_lecture_junction (user_profile_id, lecture_id)
-VALUES (1, 7);
+VALUES (2, 9);
+INSERT INTO user_profile_lecture_junction (user_profile_id, lecture_id)
+VALUES (3, 9);
+INSERT INTO user_profile_lecture_junction (user_profile_id, lecture_id)
+VALUES (4, 9);
+INSERT INTO user_profile_lecture_junction (user_profile_id, lecture_id)
+VALUES (5, 9);
+INSERT INTO user_profile_lecture_junction (user_profile_id, lecture_id)
+VALUES (6, 9);
+
+
+
 
 
 
