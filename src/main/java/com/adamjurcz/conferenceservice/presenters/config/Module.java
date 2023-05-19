@@ -13,8 +13,8 @@ import org.springframework.context.annotation.Configuration;
 public class Module {
     @Bean
     public CreateLectureReservationUseCase createLectureReservationUseCase(UserProfileRepository userProfileRepository,
-                                           LectureRepository lectureRepository){
-        return new CreateLectureReservationUseCase(userProfileRepository, lectureRepository);
+                                           LectureRepository lectureRepository, EmailNotificationService emailNotificationService){
+        return new CreateLectureReservationUseCase(userProfileRepository, lectureRepository, emailNotificationService);
     }
 
     @Bean
