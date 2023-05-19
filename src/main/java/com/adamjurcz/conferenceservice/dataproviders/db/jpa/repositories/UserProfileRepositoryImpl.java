@@ -18,11 +18,6 @@ public class UserProfileRepositoryImpl implements UserProfileRepository {
     }
 
     @Override
-    public List<UserProfile> getAll() {
-        return repository.findAll().stream().map(UserProfileData::fromThis).collect(Collectors.toList());
-    }
-
-    @Override
     public List<UserProfile> getAllUsersOnly() {
         return repository.findAll().stream().map(UserProfileData::fromThisWithEmptyLectures).collect(Collectors.toList());
     }
