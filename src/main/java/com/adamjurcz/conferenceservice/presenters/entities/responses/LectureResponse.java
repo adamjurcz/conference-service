@@ -4,10 +4,11 @@ import com.adamjurcz.conferenceservice.core.domain.Lecture;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Value;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Value
-public class LectureResponse implements Comparable<LectureResponse>{
+public class LectureResponse implements Comparable<LectureResponse>, Serializable {
     Integer id;
     String main_subject;
 
