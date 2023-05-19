@@ -1,6 +1,8 @@
 package com.adamjurcz.conferenceservice.core.exceptions;
 
-public abstract class DomainException extends RuntimeException{
+import java.io.Serializable;
+
+public abstract class DomainException extends RuntimeException implements Serializable {
     public DomainException(String message){
         super(message);
     }
