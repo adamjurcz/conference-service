@@ -20,6 +20,6 @@ public class Lecture {
     private List<UserProfile> listeners;
 
     public boolean hasMaximumListeners(){
-        return !(listeners.size() <= max_listeners);
+        return !(listeners.size() < max_listeners);
     }
 }
