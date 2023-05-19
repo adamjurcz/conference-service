@@ -9,16 +9,16 @@ import java.util.List;
 import java.util.Map;
 
 public class GetLectureInterestUseCase extends UseCase<GetLectureInterestUseCase.Input, GetLectureInterestUseCase.Output>{
-    private GetLecturesUseCase getLecturesUseCase;
+    private GetAllLecturesUseCase getAllLecturesUseCase;
 
-    public GetLectureInterestUseCase(GetLecturesUseCase getLecturesUseCase) {
-        this.getLecturesUseCase = getLecturesUseCase;
+    public GetLectureInterestUseCase(GetAllLecturesUseCase getAllLecturesUseCase) {
+        this.getAllLecturesUseCase = getAllLecturesUseCase;
     }
 
     @Override
     public Output execute(Input input) {
-        List<Lecture> lectures = getLecturesUseCase
-                .execute(new GetLecturesUseCase.Input())
+        List<Lecture> lectures = getAllLecturesUseCase
+                .execute(new GetAllLecturesUseCase.Input())
                 .getLectures();
 
         int usersNumber = lectures

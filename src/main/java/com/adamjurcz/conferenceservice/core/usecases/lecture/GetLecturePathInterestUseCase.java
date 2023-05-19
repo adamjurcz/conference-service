@@ -7,20 +7,20 @@ import lombok.Value;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 public class GetLecturePathInterestUseCase extends UseCase<GetLecturePathInterestUseCase.Input, GetLecturePathInterestUseCase.Output>{
-    private GetLecturesUseCase getLecturesUseCase;
+    private GetAllLecturesUseCase getAllLecturesUseCase;
 
-    public GetLecturePathInterestUseCase(GetLecturesUseCase getLecturesUseCase) {
-        this.getLecturesUseCase = getLecturesUseCase;
+    public GetLecturePathInterestUseCase(GetAllLecturesUseCase getAllLecturesUseCase) {
+        this.getAllLecturesUseCase = getAllLecturesUseCase;
     }
 
     @Override
     public Output execute(Input input) {
-        List<Lecture> lectures = getLecturesUseCase
-                .execute(new GetLecturesUseCase.Input())
+        List<Lecture> lectures = getAllLecturesUseCase
+                .execute(new GetAllLecturesUseCase.Input())
                 .getLectures();
 
         int userNumber = lectures
@@ -28,11 +28,15 @@ public class GetLecturePathInterestUseCase extends UseCase<GetLecturePathInteres
                 .mapToInt(lecture -> lecture.getListeners().size())
                 .sum();
 
+        System.out.println(userNumber);
+
         Map<Integer, Double> pathInterestMap = new HashMap<>();
         List<Integer> allPathNumbers = getAllPathNumbers(lectures);
+        System.out.println(allPathNumbers);
         allPathNumbers.forEach(pathNum -> {
             int userNumberInPath = getUserNumberInPath(lectures, pathNum);
-            pathInterestMap.put(pathNum, (double) (userNumberInPath / userNumber));
+            System.out.println(userNumberInPath);
+            pathInterestMap.put(pathNum, (double) userNumberInPath / userNumber * 100);
         });
         return new Output(pathInterestMap);
     }

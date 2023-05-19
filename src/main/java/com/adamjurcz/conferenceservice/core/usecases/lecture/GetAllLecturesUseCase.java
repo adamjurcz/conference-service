@@ -6,10 +6,10 @@ import lombok.Value;
 
 import java.util.List;
 
-public class GetLecturesUseCase extends UseCase<GetLecturesUseCase.Input, GetLecturesUseCase.Output> {
+public class GetAllLecturesUseCase extends UseCase<GetAllLecturesUseCase.Input, GetAllLecturesUseCase.Output> {
     private LectureRepository lectureRepository;
 
-    public GetLecturesUseCase(LectureRepository lectureRepository) {
+    public GetAllLecturesUseCase(LectureRepository lectureRepository) {
         this.lectureRepository = lectureRepository;
     }
 

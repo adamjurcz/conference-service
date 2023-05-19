@@ -24,7 +24,8 @@ public class DeleteLectureReservationUseCase extends UseCase<DeleteLectureReserv
                 .stream()
                 .filter(lecture -> lecture.getId().equals(input.getLecture_id()))
                 .findFirst()
-                .orElseThrow(()->new NotFoundException("Prelekcja o id: %s nie istnieje!", input.getLecture_id().getValue()));
+                .orElseThrow(()->new NotFoundException("Prelekcja o id: %s nie jest zarezerwowana przez uzytkownika!",
+                        input.getLecture_id().getValue()));
         userProfile.getLectures().remove(userLecture);
 
         userProfileRepository.persist(userProfile);

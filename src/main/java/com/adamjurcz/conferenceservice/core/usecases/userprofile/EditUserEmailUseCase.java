@@ -20,8 +20,12 @@ public class EditUserEmailUseCase extends UseCase<EditUserEmailUseCase.Input, Ed
                 .getByLogin(input.getLogin())
                 .orElseThrow(()->new NotFoundException("Login: %s nie istnieje!", input.getLogin()));
 
+        if(userProfileRepository.existsByEmail(input.getNewEmail())){
+            throw new AlreadyExistsException("Email: %s jest juz zajety!", input.getNewEmail());
+        }
+
         if(userProfile.getEmail().equals(input.getNewEmail())){
-            throw new AlreadyExistsException("Email: %s juz istnieje!", input.getNewEmail());
+            throw new AlreadyExistsException("Email: %s jest identyczny ze starym emailem!", input.getNewEmail());
         }
         if(!UserProfile.isEmailValid(input.getNewEmail())){
             throw new InvalidDataException("Email: %s ma nieprawidlowy format!", input.getNewEmail());
