@@ -8,14 +8,20 @@ import com.adamjurcz.conferenceservice.core.usecases.UseCase;
 import com.adamjurcz.conferenceservice.core.usecases.userprofile.UserProfileRepository;
 import lombok.Value;
 
+import java.util.concurrent.CompletableFuture;
+
 
 public class CreateLectureReservationUseCase extends UseCase<CreateLectureReservationUseCase.Input, CreateLectureReservationUseCase.Output>{
     private UserProfileRepository userProfileRepository;
     private LectureRepository lectureRepository;
+    private EmailNotificationService emailNotificationService;
 
-    public CreateLectureReservationUseCase(UserProfileRepository userProfileRepository, LectureRepository lectureRepository) {
+    public CreateLectureReservationUseCase(UserProfileRepository userProfileRepository,
+                                           LectureRepository lectureRepository,
+                                           EmailNotificationService emailNotificationService) {
         this.userProfileRepository = userProfileRepository;
         this.lectureRepository = lectureRepository;
+        this.emailNotificationService = emailNotificationService;
     }
 
     @Override
@@ -28,19 +34,22 @@ public class CreateLectureReservationUseCase extends UseCase<CreateLectureReserv
         }
 
         Lecture lecture = lectureRepository.getById(input.getLecture_id())
-                .orElseThrow(()->new NotFoundException("Prelekcja o id: %s nie istnieje!", input.getLecture_id()));
+                .orElseThrow(()->new NotFoundException("Prelekcja o id: %s nie istnieje!", input.getLecture_id().getValue()));
 
         if(lecture.hasMaximumListeners()){
-            throw new MaximumListenersInLectureException("Prelekcja o id: %s juz ma limit osob!", input.getLecture_id());
+            throw new MaximumListenersInLectureException("Prelekcja o id: %s juz ma limit osob!", input.getLecture_id().getValue());
         }
 
         if(userProfile.isHourAlreadyReserved(lecture)){
             throw new UserAlreadyReservedHourException("Uzytkownik: %s juz zarezerwowal te godzine!", input.getLogin());
         }
         userProfile.getLectures().add(lecture);
-
         userProfileRepository.persist(userProfile);
-        //TODO wysylka maila
+
+        CompletableFuture.runAsync(() -> {
+            emailNotificationService.sendNotification(input.getEmail(), lecture);
+        });
+
         return new Output(lecture);
     }
 
