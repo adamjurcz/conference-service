@@ -1,6 +1,5 @@
 package com.adamjurcz.conferenceservice.presenters.entities.responses;
 
-import com.adamjurcz.conferenceservice.core.domain.Lecture;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Value;
 
