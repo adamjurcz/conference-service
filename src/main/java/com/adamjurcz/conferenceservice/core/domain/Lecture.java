@@ -2,7 +2,7 @@ package com.adamjurcz.conferenceservice.core.domain;
 
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @AllArgsConstructor
@@ -13,12 +13,13 @@ import java.util.List;
 public class Lecture {
     private Identity id;
     private String main_subject;
-    private Date start_time;
-    private Integer path_num;
+    private LocalDateTime start_time;
+    private Integer path_number;
     private Integer max_listeners;
+
     private List<UserProfile> listeners;
 
     public boolean hasMaximumListeners(){
-        return !(listeners.size() <= 5);
+        return !(listeners.size() <= max_listeners);
     }
 }
