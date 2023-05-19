@@ -5,12 +5,11 @@ import com.adamjurcz.conferenceservice.core.domain.UserProfile;
 import com.adamjurcz.conferenceservice.core.usecases.userprofile.EditUserEmailUseCase;
 import com.adamjurcz.conferenceservice.core.usecases.userprofile.GetAllUsersUseCase;
 import com.adamjurcz.conferenceservice.core.usecases.userprofile.GetUserReservationsUseCase;
-import com.adamjurcz.conferenceservice.presenters.entities.requests.UserProfileRequest;
-import com.adamjurcz.conferenceservice.presenters.entities.requests.UserProfileResponse;
+import com.adamjurcz.conferenceservice.presenters.entities.responses.LectureResponse;
+import com.adamjurcz.conferenceservice.presenters.entities.responses.UserProfileResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,21 +34,30 @@ public class UserProfileController implements UserProfileResource{
                 .execute(new GetAllUsersUseCase.Input())
                 .getUserProfiles()
                 .stream()
-                .map(userProfile -> new UserProfileResponse(userProfile.getLogin(), userProfile.getEmail()))
+                .map(userProfile -> new UserProfileResponse(userProfile.getId().getValue(),
+                        userProfile.getLogin(), userProfile.getEmail()))
                 .collect(Collectors.toList());
         return new ResponseEntity<>(userProfiles, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<List<Lecture>> getUserReservations(String login) {
-        List<Lecture> lectures = getUserReservationsUseCase.execute(new GetUserReservationsUseCase.Input(login)).getLectures();
-        return new ResponseEntity<>(lectures, HttpStatus.OK);
+    public ResponseEntity<List<LectureResponse>> getUserReservations(String login) {
+        List<LectureResponse> lecturesResponse = getUserReservationsUseCase
+                .execute(new GetUserReservationsUseCase.Input(login))
+                .getLectures()
+                .stream()
+                .map(lecture -> new LectureResponse(lecture.getId().getValue(), lecture.getMain_subject(),
+                        lecture.getStart_time(), lecture.getPath_number()))
+                .collect(Collectors.toList());
+        return new ResponseEntity<>(lecturesResponse, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<UserProfile> editUserEmail(String newEmail, UserProfileRequest oldAccount) {
+    public ResponseEntity<UserProfileResponse> editUserEmail(String login, String newEmail) {
         UserProfile userProfile = editUserEmailUseCase
-                .execute(new EditUserEmailUseCase.Input(oldAccount.getLogin(), newEmail)).getUserProfile();
-        return new ResponseEntity<>(userProfile, HttpStatus.OK);
+                .execute(new EditUserEmailUseCase.Input(login, newEmail)).getUserProfile();
+        UserProfileResponse userProfileResponse = new UserProfileResponse(userProfile.getId().getValue(),
+                userProfile.getLogin(), userProfile.getEmail());
+        return new ResponseEntity<>(userProfileResponse, HttpStatus.OK);
     }
 }

@@ -1,10 +1,10 @@
 package com.adamjurcz.conferenceservice.presenters.api;
 
 import com.adamjurcz.conferenceservice.core.domain.Lecture;
-import com.adamjurcz.conferenceservice.core.domain.UserProfile;
-import com.adamjurcz.conferenceservice.presenters.entities.requests.UserProfileRequest;
-import com.adamjurcz.conferenceservice.presenters.entities.requests.UserProfileResponse;
+import com.adamjurcz.conferenceservice.presenters.entities.responses.LectureResponse;
+import com.adamjurcz.conferenceservice.presenters.entities.responses.UserProfileResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,9 +18,10 @@ public interface UserProfileResource {
     ResponseEntity<List<UserProfileResponse>> getAllUsers();
 
     @GetMapping("/{login}/reservations")
-    ResponseEntity<List<Lecture>> getUserReservations(@PathVariable String login);
+    ResponseEntity<List<LectureResponse>> getUserReservations(@PathVariable String login);
 
-    @PutMapping("/{newEmail}")
-    ResponseEntity<UserProfile> editUserEmail(@PathVariable String newEmail, @RequestBody UserProfileRequest oldAccount);
+    @Transactional
+    @PutMapping("/{login}/edits/{newEmail}")
+    ResponseEntity<UserProfileResponse> editUserEmail(@PathVariable String login, @PathVariable String newEmail);
 
 }
