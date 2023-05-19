@@ -27,13 +27,9 @@ public class LectureData {
     private Integer path_number;
     private Integer max_listeners;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE},
-                fetch = FetchType.LAZY)
-    @JoinTable(name = "user_profile_lecture_junction",
-            joinColumns = @JoinColumn(name = "lecture_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_profile_id")
-    )
+    @ManyToMany(mappedBy = "lectures")
     private Set<UserProfileData> listeners;
+
 
     public Lecture fromThisWithEmptyListeners(){
         return new Lecture(new Identity(id), main_subject, start_time, path_number, max_listeners, new ArrayList<>());

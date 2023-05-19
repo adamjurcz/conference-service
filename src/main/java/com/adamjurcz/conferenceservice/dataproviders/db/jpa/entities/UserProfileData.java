@@ -6,6 +6,7 @@ import com.adamjurcz.conferenceservice.core.domain.UserProfile;
 import jakarta.persistence.*;
 import lombok.*;
 
+import javax.validation.constraints.Size;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -20,11 +21,19 @@ public class UserProfileData {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Size(min = 5, max = 30)
     private String login;
+    @Size(max = 60)
     private String email;
 
-    @ManyToMany(mappedBy = "listeners")
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST},
+            fetch = FetchType.LAZY)
+    @JoinTable(name = "user_profile_lecture_junction",
+            joinColumns = @JoinColumn(name = "user_profile_id"),
+            inverseJoinColumns = @JoinColumn(name = "lecture_id")
+    )
     private Set<LectureData> lectures;
+
 
     public UserProfile fromThisWithEmptyLectures(){
         return new UserProfile(new Identity(id), login, email, new ArrayList<>());
@@ -45,6 +54,8 @@ public class UserProfileData {
                 .map(LectureData::fromWithEmptyListeners).collect(Collectors.toSet());
         return new UserProfileData(userProfile.getId().getValue(), userProfile.getLogin(), userProfile.getEmail(), lectures);
     }
+
+
 
     @Override
     public boolean equals(Object o) {
