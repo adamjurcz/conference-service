@@ -27,9 +27,13 @@ Maven will automatically build the project and run it on the built-in applicatio
 - compile project by using `.\mvnw package`to create jar file
 - last step is executing Spring Boot project with command: `java -jar target/conferenceservice-1.0.0.jar`
 
-Now you can reach application at `http://localhost:8080`
+Now you can reach application at `http://localhost:8080`.
+You can also run unit tests by typing `mvn test` in console.
 
 # Example of requests with preloaded edgecases in database
+You can test endpoints by provided documentation by swagger at 
+`http://localhost:8080/swagger-ui/index.html`, or you can enter requests written below in postman.
+
 ## User endpoint
 ### 1. Get all users - GET
 Describe: Getting all existing users from database
