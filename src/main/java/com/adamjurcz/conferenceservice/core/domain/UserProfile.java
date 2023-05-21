@@ -38,4 +38,38 @@ public class UserProfile {
                         lecture_member.getStart_time().equals(lecture.getStart_time()));
     }
 
+    public static class Builder {
+        private Identity id;
+        private String login;
+        private String email;
+        private List<Lecture> lectures;
+
+        public Builder() {
+            lectures = new ArrayList<>();
+        }
+
+        public Builder setId(Identity id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setLogin(String login) {
+            this.login = login;
+            return this;
+        }
+
+        public Builder setEmail(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public Builder addLecture(Lecture lecture) {
+            this.lectures.add(lecture);
+            return this;
+        }
+
+        public UserProfile build() {
+            return new UserProfile(id, login, email, lectures);
+        }
+    }
 }
