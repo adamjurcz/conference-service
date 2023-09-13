@@ -11,9 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -37,20 +35,21 @@ public class LectureController implements LectureResource {
     }
 
     @Override
-    public ResponseEntity<LectureInterestResponse> getLectureInterest() {
+    public ResponseEntity<List<LectureInterestResponse>> getLectureInterest() {
         Map<Lecture, Double> lectureDoubleMap = getLectureInterestUseCase.execute(new GetLectureInterestUseCase.Input())
                 .getLectureDoubleMap();
 
-        TreeMap<LectureResponse, Double> lectureResponseDoubleMap = new TreeMap<>();
+        List<LectureInterestResponse> lectureInterestResponses = new ArrayList<>();
         for(Map.Entry<Lecture, Double> entry: lectureDoubleMap.entrySet()){
             Lecture lecture = entry.getKey();
             Double interest = entry.getValue();
 
-            LectureResponse lectureResponse = new LectureResponse(lecture.getId().getValue(), lecture.getMain_subject(),
-                    lecture.getStart_time(), lecture.getPath_number());
-            lectureResponseDoubleMap.put(lectureResponse, interest);
+            LectureInterestResponse lectureInterestResponse = new LectureInterestResponse(lecture.getId().getValue(), lecture.getMain_subject(),
+                    lecture.getStart_time(), lecture.getPath_number(), interest);
+            lectureInterestResponses.add(lectureInterestResponse);
         }
-        return new ResponseEntity<>(new LectureInterestResponse(lectureResponseDoubleMap), HttpStatus.OK);
+        Collections.sort(lectureInterestResponses, Comparator.comparing(LectureInterestResponse::getId));
+        return new ResponseEntity<>(lectureInterestResponses, HttpStatus.OK);
     }
 
     @Override

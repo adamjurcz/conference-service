@@ -16,7 +16,7 @@ public interface LectureResource {
     String BASE_URL = "/api/v1/lectures";
 
     @GetMapping("/interests")
-    ResponseEntity<LectureInterestResponse> getLectureInterest();
+    ResponseEntity<List<LectureInterestResponse>> getLectureInterest();
 
     @GetMapping("/interests/paths")
     ResponseEntity<LecturePathInterestResponse> getLecturePathInterest();

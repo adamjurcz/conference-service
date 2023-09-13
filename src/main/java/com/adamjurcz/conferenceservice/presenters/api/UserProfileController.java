@@ -1,11 +1,12 @@
 package com.adamjurcz.conferenceservice.presenters.api;
 
-import com.adamjurcz.conferenceservice.core.domain.Lecture;
 import com.adamjurcz.conferenceservice.core.domain.UserProfile;
 import com.adamjurcz.conferenceservice.core.usecases.userprofile.EditUserEmailUseCase;
 import com.adamjurcz.conferenceservice.core.usecases.userprofile.GetAllUsersUseCase;
 import com.adamjurcz.conferenceservice.core.usecases.userprofile.GetUserReservationsUseCase;
+import com.adamjurcz.conferenceservice.core.usecases.userprofile.LogIntoAdminUseCase;
 import com.adamjurcz.conferenceservice.presenters.entities.responses.LectureResponse;
+import com.adamjurcz.conferenceservice.presenters.entities.responses.UserProfileIsAdminResponse;
 import com.adamjurcz.conferenceservice.presenters.entities.responses.UserProfileResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,16 +17,18 @@ import java.util.stream.Collectors;
 
 @Component
 public class UserProfileController implements UserProfileResource{
-    private GetAllUsersUseCase getAllUsersUseCase;
-    private EditUserEmailUseCase editUserEmailUseCase;
-    private GetUserReservationsUseCase getUserReservationsUseCase;
+    private final GetAllUsersUseCase getAllUsersUseCase;
+    private final EditUserEmailUseCase editUserEmailUseCase;
+    private final GetUserReservationsUseCase getUserReservationsUseCase;
+    private final LogIntoAdminUseCase logIntoAdminUseCase;
 
     public UserProfileController(GetAllUsersUseCase getAllUsersUseCase,
                                  EditUserEmailUseCase editUserEmailUseCase,
-                                 GetUserReservationsUseCase getUserReservationsUseCase) {
+                                 GetUserReservationsUseCase getUserReservationsUseCase, LogIntoAdminUseCase logIntoAdminUseCase) {
         this.getAllUsersUseCase = getAllUsersUseCase;
         this.editUserEmailUseCase = editUserEmailUseCase;
         this.getUserReservationsUseCase = getUserReservationsUseCase;
+        this.logIntoAdminUseCase = logIntoAdminUseCase;
     }
 
     @Override
@@ -59,5 +62,11 @@ public class UserProfileController implements UserProfileResource{
         UserProfileResponse userProfileResponse = new UserProfileResponse(userProfile.getId().getValue(),
                 userProfile.getLogin(), userProfile.getEmail());
         return new ResponseEntity<>(userProfileResponse, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<UserProfileIsAdminResponse> isAdmin(String login, String password) {
+        boolean isUserAdmin = logIntoAdminUseCase.execute(new LogIntoAdminUseCase.Input(login, password)).isCanLogIntoAdmin();
+        return new ResponseEntity<>(new UserProfileIsAdminResponse(isUserAdmin), HttpStatus.OK);
     }
 }

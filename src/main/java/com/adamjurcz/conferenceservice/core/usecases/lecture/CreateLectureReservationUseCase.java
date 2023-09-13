@@ -27,7 +27,7 @@ public class CreateLectureReservationUseCase extends UseCase<CreateLectureReserv
     @Override
     public Output execute(Input input) throws DomainException {
         UserProfile userProfile = userProfileRepository.getByLogin(input.getLogin())
-                .orElse(UserProfile.newInstance(input.getLogin(), input.getEmail()));
+                .orElse(UserProfile.newInstance(input.getLogin(), input.getEmail(), null, false));
 
         if(!input.getEmail().equals(userProfile.getEmail())){
             throw new AlreadyExistsException("Login: %s jest juz uzywany!", input.getLogin());

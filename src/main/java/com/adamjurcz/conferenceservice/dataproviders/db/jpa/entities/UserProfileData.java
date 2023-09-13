@@ -3,6 +3,7 @@ package com.adamjurcz.conferenceservice.dataproviders.db.jpa.entities;
 import com.adamjurcz.conferenceservice.core.domain.Identity;
 import com.adamjurcz.conferenceservice.core.domain.Lecture;
 import com.adamjurcz.conferenceservice.core.domain.UserProfile;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,6 +24,11 @@ public class UserProfileData {
     private String login;
     private String email;
 
+    @Nullable
+    private String password;
+    @Nullable
+    private Boolean isAdmin;
+
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST},
             fetch = FetchType.LAZY)
     @JoinTable(name = "user_profile_lecture_junction",
@@ -33,23 +39,25 @@ public class UserProfileData {
 
 
     public UserProfile fromThisWithEmptyLectures(){
-        return new UserProfile(new Identity(id), login, email, new ArrayList<>());
+        return new UserProfile(new Identity(id), login, email, password, isAdmin, new ArrayList<>());
     }
 
     public UserProfile fromThis(){
         List<Lecture> lectures = this.getLectures().stream()
                 .map(LectureData::fromThisWithEmptyListeners).collect(Collectors.toList());
-        return new UserProfile(new Identity(id), login, email, lectures);
+        return new UserProfile(new Identity(id), login, email, password, isAdmin, lectures);
     }
 
     public static UserProfileData fromWithEmptyLectures(UserProfile userProfile){
-        return new UserProfileData(userProfile.getId().getValue(), userProfile.getLogin(), userProfile.getEmail(), new HashSet<>());
+        return new UserProfileData(userProfile.getId().getValue(), userProfile.getLogin(), userProfile.getEmail(),
+                userProfile.getPassword(), userProfile.getIsAdmin(), new HashSet<>());
     }
 
     public static UserProfileData from(UserProfile userProfile){
         Set<LectureData> lectures = userProfile.getLectures().stream()
                 .map(LectureData::fromWithEmptyListeners).collect(Collectors.toSet());
-        return new UserProfileData(userProfile.getId().getValue(), userProfile.getLogin(), userProfile.getEmail(), lectures);
+        return new UserProfileData(userProfile.getId().getValue(), userProfile.getLogin(), userProfile.getEmail(),
+                userProfile.getPassword(), userProfile.getIsAdmin(), lectures);
     }
 
 

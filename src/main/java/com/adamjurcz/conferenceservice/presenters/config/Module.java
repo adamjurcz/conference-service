@@ -1,10 +1,7 @@
 package com.adamjurcz.conferenceservice.presenters.config;
 
 import com.adamjurcz.conferenceservice.core.usecases.lecture.*;
-import com.adamjurcz.conferenceservice.core.usecases.userprofile.EditUserEmailUseCase;
-import com.adamjurcz.conferenceservice.core.usecases.userprofile.GetAllUsersUseCase;
-import com.adamjurcz.conferenceservice.core.usecases.userprofile.GetUserReservationsUseCase;
-import com.adamjurcz.conferenceservice.core.usecases.userprofile.UserProfileRepository;
+import com.adamjurcz.conferenceservice.core.usecases.userprofile.*;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -50,5 +47,10 @@ public class Module {
     @Bean
     public GetLecturePathInterestUseCase getLecturePathInterestUseCase(GetAllLecturesUseCase getAllLecturesUseCase){
         return new GetLecturePathInterestUseCase(getAllLecturesUseCase);
+    }
+
+    @Bean
+    public LogIntoAdminUseCase logIntoAdminUseCase(UserProfileRepository userProfileRepository){
+        return new LogIntoAdminUseCase(userProfileRepository);
     }
 }

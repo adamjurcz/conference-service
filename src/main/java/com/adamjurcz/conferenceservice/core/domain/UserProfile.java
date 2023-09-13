@@ -3,9 +3,7 @@ package com.adamjurcz.conferenceservice.core.domain;
 import lombok.*;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.regex.Pattern;
 
 @AllArgsConstructor
@@ -17,11 +15,13 @@ public class UserProfile {
     private Identity id;
     private String login;
     private String email;
+    private String password;
+    private Boolean isAdmin;
     private List<Lecture> lectures;
 
-    public static UserProfile newInstance(String login, String email){
+    public static UserProfile newInstance(String login, String email, String password, Boolean isAdmin){
         return new UserProfile(Identity.nothing(), login,
-                email, new ArrayList<>());
+                email, password, isAdmin, new ArrayList<>());
     }
 
     public static boolean isEmailValid(String email){
@@ -42,6 +42,8 @@ public class UserProfile {
         private Identity id;
         private String login;
         private String email;
+        private String password;
+        private Boolean isAdmin;
         private List<Lecture> lectures;
 
         public Builder() {
@@ -63,13 +65,23 @@ public class UserProfile {
             return this;
         }
 
+        public Builder setPassword(String password){
+            this.password = password;
+            return this;
+        }
+
+        public Builder setAdmin(Boolean isAdmin){
+            this.isAdmin = isAdmin;
+            return this;
+        }
+
         public Builder addLecture(Lecture lecture) {
             this.lectures.add(lecture);
             return this;
         }
 
         public UserProfile build() {
-            return new UserProfile(id, login, email, lectures);
+            return new UserProfile(id, login, email, password, isAdmin, lectures);
         }
     }
 }

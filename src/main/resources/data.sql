@@ -5,6 +5,8 @@ INSERT INTO user_profile (login, email) VALUES ('wisniek', 'wisniek@wp.pl');
 INSERT INTO user_profile (login, email) VALUES ('lisciek', 'lisciek@wp.pl');
 INSERT INTO user_profile (login, email) VALUES ('adassmieszek', 'adassmieszek@onet.pl');
 
+INSERT INTO user_profile (login, email, password, is_admin) VALUES ('server_admin', 'serveradmin@wp.pl', 'qwerty', true);
+
 INSERT INTO lecture (main_subject, start_time, path_number, max_listeners)
 VALUES ('Analiza matematyczna', '2023-06-01 10:00:00', 1, 5);
 INSERT INTO lecture (main_subject, start_time, path_number, max_listeners)
